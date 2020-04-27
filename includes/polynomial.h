@@ -42,8 +42,13 @@ class Polynomial {
     return Polynomial(terms);
   }
 
-  Polynomial<T> Integrate() {
-    std::vector<T> terms;
+  // apply the power rule
+  Polynomial<Rational<T>> Integrate() {
+    std::vector<Rational<T>> terms;
+    terms.emplace_back(Rational<T>(0, 1));
+    for (int i = 1; i < number_of_terms; i++) {
+      terms.emplace_back(coefficients[i] * Rational<T>(1, i));
+    }
 
   }
 };
@@ -56,6 +61,26 @@ Polynomial<T>::Polynomial(std::vector<T> &_coefficients)
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, Polynomial<T>& p) {
+  std::stringstream ss;
+  int degree = 0;
+  const char *c_dot = u8"\u22c5";
+  for (T coefficient : p.coefficients) {
+    switch (degree) {
+      case 0:ss << coefficient << c_dot << "1";
+        break;
+      case 1:ss << coefficient << c_dot << "x";
+        break;
+      default:ss << coefficient << c_dot << "x" << "^" << degree;
+    }
+    if (degree != p.number_of_terms - 1) { ss << " + "; }
+    degree++;
+  }
+  os << ss.str();
+  return os;
+}
+
+template<typename T>
+std::ostream& operator<<(Polynomial<T>& p, std::ostream& os) {
   std::stringstream ss;
   int degree = 0;
   const char *c_dot = u8"\u22c5";

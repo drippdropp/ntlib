@@ -22,14 +22,5 @@ int main(int argc, char **argv) {
   Polynomial<int> D_poly = poly.Derivative();
   std::cout << D_poly << std::endl;
 
-  Rational<int> ratio1{1, 2};
-  std::cout << ratio1 << std::endl;
-
-  Rational<int> ratio2{2, 3};
-  std::cout << ratio2 << std::endl;
-
-  Rational<int> ratio4 = ratio1 * ratio2;
-  std::cout << ratio4 << std::endl;
-
   return 0;
 }

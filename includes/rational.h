@@ -5,6 +5,7 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <exception>
 #include "math.h"
 
 namespace ntlib {
@@ -15,7 +16,11 @@ class Rational {
   T numerator;
   T denominator;
   Rational(T numerator, T denominator)
-      : numerator{numerator}, denominator{denominator} {};
+      : numerator{numerator}, denominator{denominator} {
+    if (denominator == 0) {
+      throw std::runtime_error("Cannot divide by zero.");
+    }
+  };
 
   Rational()
   : numerator{0}, denominator{1} {};
@@ -47,6 +52,13 @@ class Rational {
     return ReduceFraction(ratio);
   }
 
+  Rational<T> operator*(const T& that) {
+    Rational<T> ratio = Rational<T>{
+      this->numerator * that,
+      this->denominator};
+    return ReduceFraction(ratio);
+  }
+
   Rational<T> operator*(const Rational& that) {
     Rational<T> ratio = Rational<T>{
       this->numerator * that.numerator,
@@ -55,7 +67,10 @@ class Rational {
   }
 
   Rational<T> operator/(const Rational& that) {
-    Rational<T> ratio = this * Flip(that);
+    Rational<T> ratio = Rational<T>{
+      this->numerator * that.denominator,
+      this->denominator * that.numerator
+    };
     return ReduceFraction(ratio);
   }
 
@@ -72,6 +87,11 @@ class Rational {
     return output_ratio;
   }
 };
+
+template<typename T>
+Rational<T> operator*(const T& that, Rational<T>& rational) {
+  return rational * that;
+}
 
 template<typename T>
 std::ostream& operator<<(std::ostream& os, Rational<T>& fraction) {
