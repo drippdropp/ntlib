@@ -1,8 +1,7 @@
-#pragma once
-
 #ifndef NTLIB_RATIONAL_H
 #define NTLIB_RATIONAL_H
 
+#pragma once
 #include <iostream>
 #include <cmath>
 #include <vector>
@@ -18,8 +17,14 @@ class Rational {
   Rational(T numerator, T denominator)
       : numerator{numerator}, denominator{denominator} {};
 
-  Rational<T>& operator+(const Rational& that) {
-    Rational<T> ratio;
+  Rational()
+  : numerator{0}, denominator{1} {};
+
+  Rational(Rational<T> &ratio)
+  : numerator{ratio.numerator}, denominator{ratio.denominator} {}
+
+  Rational<T> operator+(const Rational& that) {
+    Rational<T> ratio{};
     if (this->denominator != that.denominator) {
       ratio = Rational<T>{
           this->numerator * that.denominator + this->denominator * that.numerator,
@@ -27,41 +32,63 @@ class Rational {
     } else {
       ratio = Rational<T>{this->numerator + that.numerator, this->denominator};
     }
-    return Rational<T>::ReduceFraction(ratio);
+    return ReduceFraction(ratio);
   }
 
-  Rational<T>& operator-(const Rational& that) {
-    Rational<T> ratio = this + (-1 * that);
-    return Rational<T>::ReduceFraction(ratio);
+  Rational<T> operator-(const Rational& that) {
+    Rational<T> ratio{};
+    if (this->denominator != that.denominator) {
+      ratio = Rational<T>{
+          this->numerator * that.denominator - this->denominator * that.numerator,
+          this->denominator * that.denominator};
+    } else {
+      ratio = Rational<T>{this->numerator - that.numerator, this->denominator};
+    }
+    return ReduceFraction(ratio);
   }
 
-  Rational<T>& operator*(const Rational& that) {
+  Rational<T> operator*(const Rational& that) {
     Rational<T> ratio = Rational<T>{
-      this->numerator + that.numerator,
+      this->numerator * that.numerator,
         this->denominator * that.denominator};
-    return Rational<T>::ReduceFraction(ratio);
+    return ReduceFraction(ratio);
   }
 
-  Rational<T>& operator/(const Rational& that) {
-    Rational<T> ratio = this * Rational::Flip(that);
-    return Rational<T>::ReduceFraction(ratio);
+  Rational<T> operator/(const Rational& that) {
+    Rational<T> ratio = this * Flip(that);
+    return ReduceFraction(ratio);
   }
 
-  static Rational<T>& Flip(const Rational<T>& fraction) {
-    return Rational<T>{fraction.denominator, fraction.numerator};
+  static Rational<T> Flip(const Rational<T>& fraction) {
+    Rational<T> ratio{fraction.denominator, fraction.numerator};
+    return ratio;
   }
 
-  static Rational<T>& ReduceFraction(const Rational<T>& fraction) {
+  static Rational<T> ReduceFraction(const Rational<T>& fraction) {
     T d = gcd(std::abs(fraction.numerator), std::abs(fraction.denominator));
-    return Rational<T>(fraction.numerator / d, fraction.denominator / d);
-  }
-
-
-
-  T CommonDenominator(T a, T b) {
-
+    T numerator = fraction.numerator / d;
+    T denominator = fraction.denominator / d;
+    Rational<T> output_ratio(numerator, denominator);
+    return output_ratio;
   }
 };
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, Rational<T>& fraction) {
+  std::stringstream ss;
+  ss << fraction.numerator << "//" << fraction.denominator;
+  os << ss.str();
+  return os;
+}
+
+template<typename T>
+std::ostream& operator<<(Rational<T>& fraction, std::ostream& os) {
+  std::stringstream ss;
+  ss << fraction.numerator << "//" << fraction.denominator;
+  os << ss.str();
+  return os;
+}
+
 
 }
 

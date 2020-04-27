@@ -1,11 +1,11 @@
-#pragma once
-
 #ifndef NTLIB_POLYNOMIAL_H
 #define NTLIB_POLYNOMIAL_H
 
+#pragma once
 #include <vector>
 #include <iostream>
 #include "string_modifiers.h"
+#include "rational.h"
 
 namespace ntlib {
 
@@ -43,6 +43,7 @@ class Polynomial {
   }
 
   Polynomial<T> Integrate() {
+    std::vector<T> terms;
 
   }
 };
@@ -54,7 +55,7 @@ Polynomial<T>::Polynomial(std::vector<T> &_coefficients)
       number_of_terms{_coefficients.size()} {}
 
 template<typename T>
-std::ostream &operator<<(std::ostream &os, Polynomial<T> &p) {
+std::ostream& operator<<(std::ostream& os, Polynomial<T>& p) {
   std::stringstream ss;
   int degree = 0;
   const char *c_dot = u8"\u22c5";
