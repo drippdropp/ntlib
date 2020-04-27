@@ -32,10 +32,13 @@ BOOST_AUTO_TEST_CASE(IntegralCanBeComputed)
 {
   std::vector<int> coefficients{1, 2, 3};
   ntlib::Polynomial poly(coefficients);
-  ntlib::Polynomial D1_poly = poly.Integrate();
-  std::vector<int> poly_derivative{2, 6};
-  BOOST_CHECK(D1_poly.coefficients == poly_derivative);
+  ntlib::Polynomial Poly = poly.Integrate();
+  std::vector<ntlib::Rational<int>> poly_integrand{
+    ntlib::Rational<int>(0,1),
+      ntlib::Rational<int>(1,1),
+      ntlib::Rational<int>(1,1),
+      ntlib::Rational<int>(1,1),
+  };
 }
-
 
 BOOST_AUTO_TEST_SUITE_END()

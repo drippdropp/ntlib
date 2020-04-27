@@ -8,9 +8,12 @@ set(Boost_USE_MULTITHREADED ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost 1.72)
 
+set(INCLUDE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/includes)
+set(SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
-    add_executable(ntlib main.cpp includes/crypto.h includes/factorizer.h includes/primes.h includes/polynomial.h includes/string_modifiers.h includes/math.h includes/rational.h)
+    add_executable(ntlib main.cpp ${INCLUDE_FILES})
     target_link_libraries(ntlib ${Boost_LIBRARIES})
 endif()
 

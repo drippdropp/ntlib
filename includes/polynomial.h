@@ -47,11 +47,13 @@ class Polynomial {
     std::vector<Rational<T>> terms;
     terms.emplace_back(Rational<T>(0, 1));
     for (int i = 1; i < number_of_terms; i++) {
-      terms.emplace_back(coefficients[i] * Rational<T>(1, i));
+      terms.emplace_back(Rational(1, i) * coefficients[i]);
     }
 
   }
 };
+
+
 
 template<typename T>
 Polynomial<T>::Polynomial(std::vector<T> &_coefficients)
@@ -99,6 +101,6 @@ std::ostream& operator<<(Polynomial<T>& p, std::ostream& os) {
   return os;
 }
 
-} // namespace
+}
 
 #endif
