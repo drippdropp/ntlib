@@ -6,7 +6,7 @@ The NTlib is a collection of custom-built tools for doing research in Number The
 
 Much of the functionality in this collection of tools could be patched together from other sources, but, I decided to work on it from the ground up for a couple of reasons. 
 
-First of all, I've migrated to almost exclusively using the [Julia language](https://www.julialang.org) for most of my mathematics research and data analysis work, so I wanted to get more comfortable integrating C and C++ code into my Julia code. Additionally, it's been almost a year since I was writing C and C++ code on a daily basis so I felt like it was time to sharpen my C/C++ skills and re-familiarize myself with current methodologies and best practices in the C/C++ universe.
+First of all, I've migrated to almost exclusively using the [Julia language](https://www.julialang.org) for most of my mathematics research and data analysis work, so I wanted to get more comfortable integrating C and C++ code into my Julia code. Additionally, as of April of 2020, it's been almost a year since I was writing C and C++ code on a daily basis so I felt like it was time to sharpen my C/C++ skills and re-familiarize myself with current methodologies and best practices in the C/C++ universe.
 
 ## Features
 
