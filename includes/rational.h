@@ -18,7 +18,7 @@ class Rational {
   Rational(T numerator, T denominator)
       : numerator{numerator}, denominator{denominator} {};
 
-  Rational<T>& operator+(Rational& that) {
+  Rational<T>& operator+(const Rational& that) {
     Rational<T> ratio;
     if (this->denominator != that.denominator) {
       ratio = Rational<T>{
@@ -30,28 +30,28 @@ class Rational {
     return Rational<T>::ReduceFraction(ratio);
   }
 
-  Rational<T>& operator-(Rational& that) {
+  Rational<T>& operator-(const Rational& that) {
     Rational<T> ratio = this + (-1 * that);
     return Rational<T>::ReduceFraction(ratio);
   }
 
-  Rational<T>& operator*(Rational& that) {
+  Rational<T>& operator*(const Rational& that) {
     Rational<T> ratio = Rational<T>{
       this->numerator + that.numerator,
         this->denominator * that.denominator};
     return Rational<T>::ReduceFraction(ratio);
   }
 
-  Rational<T>& operator/(Rational& that) {
+  Rational<T>& operator/(const Rational& that) {
     Rational<T> ratio = this * Rational::Flip(that);
     return Rational<T>::ReduceFraction(ratio);
   }
 
-  static Rational<T>& Flip(Rational<T>& fraction) {
+  static Rational<T>& Flip(const Rational<T>& fraction) {
     return Rational<T>{fraction.denominator, fraction.numerator};
   }
 
-  static Rational<T>& ReduceFraction(Rational<T>& fraction) {
+  static Rational<T>& ReduceFraction(const Rational<T>& fraction) {
     T d = gcd(std::abs(fraction.numerator), std::abs(fraction.denominator));
     return Rational<T>(fraction.numerator / d, fraction.denominator / d);
   }
